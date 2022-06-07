@@ -1,0 +1,71 @@
+.Todo {
+    padding: 20px;
+    border: 1px solid #626262;
+    border-radius: 5px;
+    margin: 20px 40px;
+    color: #626262;
+    font-family: 'Courgette', cursive;
+    background: #ffffff;
+}
+
+.todoHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.todoTitle {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.addButton {
+    display: flex;
+    font-size: 16px;
+    color: green;
+    position: relative;
+    padding-left: 20px;
+    cursor: pointer;
+}
+
+.addButton:hover {
+    opacity: 0.8;
+}
+
+.addButton i {
+    position: absolute;
+    left: 0;
+    top: 3px;
+}
+
+.hrLine {
+    margin: 20px 0;
+    padding: 0;
+    height: 10px;
+    border: none;
+    border-top: 1px solid #626262;
+    box-shadow: 0 10px 10px -10px #8c8b8b inset;
+}
+
+.Toolbar {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+select {
+    height: 22px;
+    border-radius: 4px;
+}
+
+.taskFilter {
+    margin-right: 5px;
+}
+
+.button {
+    margin-right: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.error {
+    background: #d67171;
+}

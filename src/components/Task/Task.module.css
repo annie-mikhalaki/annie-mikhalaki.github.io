@@ -1,0 +1,48 @@
+.todoItem {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: #fbf8f8;
+    padding: 10px;
+    border: 1px solid #626262;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.checkbox {
+    width: 15px;
+    height: 15px;
+}
+
+.todoItemText {
+    padding-left: 5px;
+    font-weight: bold;
+}
+
+.test {
+    display: flex;
+}
+
+.todoDescription {
+    text-align: justify;
+}
+
+.editIcon {
+    color: green;
+    right: 35px;
+}
+
+.removeIcon {
+    color: #de0404;
+    right: 10px;
+}
+
+.editIcon,
+.removeIcon {
+    position: absolute;
+}
+
+.editIcon:hover,
+.removeIcon:hover {
+    opacity: 0.8;
+}

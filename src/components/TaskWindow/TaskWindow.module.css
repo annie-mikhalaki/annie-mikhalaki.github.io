@@ -1,0 +1,55 @@
+.TodoWindow {
+    display: flex;
+    align-items: center;
+    /*position: absolute;*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0, 0.3);
+}
+
+.todoForm {
+    padding: 30px;
+    border: 1px solid #626262;
+    border-radius: 5px;
+    background: #ffffff;
+    width: 300px;
+    margin: 0 auto;
+    box-shadow: 4px 7px 8px 0px rgba(34, 60, 80, 0.2);
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+textarea {
+    resize: none;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.taskButtons {
+    display: flex;
+    justify-content: end;
+    margin-top: 15px;
+}
+
+.button {
+    padding: 5px;
+    width: 70px;
+    border-radius: 4px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    opacity: 0.8;
+}
+
+.success {
+    background: #5fa25f;;
+}
