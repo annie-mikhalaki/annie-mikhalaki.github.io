@@ -1,22 +1,17 @@
-import {SET_LIST, ADD_TASK, EDIT_TASK, REMOVE_TASK, COMPLETE_TASK, SORT_TASKS} from './actionTypes'
+import {SET_LIST, DELETE_TASK, ADD_TASK, EDIT_TASK, REMOVE_TASK, COMPLETE_TASK, SORT_TASKS} from './actionTypes'
+import axios from 'axios'
 
-export function addTask(payload) {
-  fetch('https://jsonplaceholder.typicode.com/todos', {
-    method: 'POST',
-    body: JSON.stringify({
-      title: payload.title,
-      body: payload.body,
-      id: payload.id,
-      userId: 1
-    }),
-    headers: {
-      'Content-type': 'application/json; charset=UTF-8',
-    },
-  })
-    .then((response) => response.json())
+export function addTask(newTask) {
+    return {
+      type: ADD_TASK,
+      newTask
+    }
+}
+
+export function deleteList() {
+  axios.put('https://react-todolist-97133-default-rtdb.firebaseio.com/todo.json', {})
   return {
-    type: ADD_TASK,
-    payload
+    type: DELETE_TASK
   }
 }
 
@@ -28,19 +23,6 @@ export function setList(payload) {
 }
 
 export function editTask(payload) {
-  fetch(`https://jsonplaceholder.typicode.com/todos/${payload.id}`, {
-    method: 'PUT',
-    body: JSON.stringify({
-      id: payload.id,
-      title: payload.title,
-      body: payload.body,
-      userId: 1,
-    }),
-    headers: {
-      'Content-type': 'application/json; charset=UTF-8',
-    },
-  })
-    .then((response) => response.json())
   return {
     type: EDIT_TASK,
     payload
@@ -48,9 +30,7 @@ export function editTask(payload) {
 }
 
 export function removeTask(payload) {
-  fetch (`https://jsonplaceholder.typicode.com/todos/${payload}`, {
-    method: 'DELETE',
-  });
+  axios.delete(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo/${payload}.json`)
   return {
     type: REMOVE_TASK,
     payload

@@ -7,30 +7,31 @@ import {SHOW_ALL, SHOW_COMPLETED, SHOW_UNCOMPLETED} from '../../actions/visibili
 import axios from 'axios'
 
 const defaultState = {
-  id: '',
   title: '',
-  body: ''
+  body: '',
+  completed: false
 }
 
 const Todo = props => {
   const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState('create'); // edit || create
   const { list, addTodo, editTodo } = props;
   const [selectedTask, setSelectedTask] = useState(defaultState)
   const [openRemoveWindow, setOpenRemoveWindow] = useState(false)
 
-  // useEffect(() => {
-  //   fetch('https://jsonplaceholder.typicode.com/todos')
-  //     .then((response) => response.json())
-  //     .then(result => props.setList(result))
-  //   }, [])
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/todos')
-      .then((response) => response.json())
-      .then(result => console.log(result))
-    axios.get('https://react-todolist-97133-default-rtdb.firebaseio.com/todo.json').then(response => {
-      console.log(response)
-    })
-    }, [])
+    const fetchData = async () => {
+      const response = await axios.get('https://react-todolist-97133-default-rtdb.firebaseio.com/todo.json')
+      const  list = Object.keys(response.data).map(key => {
+        return {
+          ...response.data[key],
+          id: key
+        }
+      })
+      props.setList(list)
+    }
+    fetchData().catch(console.error);
+  }, [])
 
   function handleChangeTitle(event) {
     setSelectedTask({
@@ -48,11 +49,12 @@ const Todo = props => {
 
   function onClickAddButton() {
     setSelectedTask(defaultState)
+    setMode('create')
     setOpen(true)
   }
 
   function onRemoveAll() {
-    props.setList([])
+    props.deleteList()
   }
 
   function sortByFilter(e) {
@@ -96,6 +98,7 @@ const Todo = props => {
                 setOpen={setOpen}
                 setOpenRemoveWindow={setOpenRemoveWindow}
                 setSelectedTask={setSelectedTask}
+                setMode={setMode}
                 setTaskCompleted={props.setTaskCompleted}
                 selectedTask={selectedTask}
               >
@@ -111,6 +114,7 @@ const Todo = props => {
             onSave={addTodo}
             onEdit={editTodo}
             setOpen={setOpen}
+            mode={mode}
             task={selectedTask}
             list={list}
             handleChangeTitle={handleChangeTitle}

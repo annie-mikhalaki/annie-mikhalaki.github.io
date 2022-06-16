@@ -1,11 +1,12 @@
 import React from 'react'
 import classes from './TaskWindow.module.css'
+import axios from 'axios'
 
 const TaskWindow = props => {
   function handleCancelButton() {
     props.setOpen(false)
   }
-  function handleSaveButton() {
+  async function handleSaveButton() {
     props.setOpen(false)
     const title = props.task.title
     const body = props.task.body
@@ -13,11 +14,12 @@ const TaskWindow = props => {
     if (title == '' && body == '') {
       return
     }
-    if (id) {
+    if (props.mode === 'edit') {
+      await axios.patch(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo/${id}.json`, { title, body, id })
       props.onEdit({ title, body, id })
     } else {
-      id = props.list.length + 1
-      props.onSave({ title, body, id })
+      const { data: { name } } = await axios.post(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo.json`, { title, body })
+      props.onSave({ title, body, id: name })
     }
   }
   return (
