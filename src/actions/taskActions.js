@@ -1,4 +1,15 @@
-import {SET_LIST, DELETE_TASK, ADD_TASK, EDIT_TASK, REMOVE_TASK, COMPLETE_TASK, SORT_TASKS} from './actionTypes'
+import {
+  SET_LIST,
+  DELETE_TASK, 
+  ADD_TASK, 
+  EDIT_TASK, 
+  REMOVE_TASK, 
+  COMPLETE_TASK, 
+  SET_LOADING, 
+  SORT_TASKS,
+  SET_FILTER_LIST,
+  SET_VISIBILITY_FILTER
+} from './actionTypes'
 import axios from 'axios'
 
 export function addTask(newTask) {
@@ -38,6 +49,7 @@ export function removeTask(payload) {
 }
 
 export function completeTask(payload) {
+  axios.patch(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo/${payload.id}.json`, { completed: !payload.completed })
   return {
     type: COMPLETE_TASK,
     payload
@@ -47,5 +59,26 @@ export function completeTask(payload) {
 export function sortTasks() {
   return {
     type: SORT_TASKS
+  }
+}
+
+export function setLoading(payload) {
+  return {
+    type: SET_LOADING,
+    payload
+  }
+}
+
+export function setFilterList(payload) {
+  return {
+    type: SET_FILTER_LIST,
+    payload
+  }
+}
+
+export function setVisibilityFilter(payload) {
+  return {
+    type: SET_VISIBILITY_FILTER,
+    payload
   }
 }

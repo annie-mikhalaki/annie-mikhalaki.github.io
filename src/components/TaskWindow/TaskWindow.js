@@ -10,16 +10,17 @@ const TaskWindow = props => {
     props.setOpen(false)
     const title = props.task.title
     const body = props.task.body
-    let id = props.task.id
+    const id = props.task.id
+    const completed = props.task.completed
     if (title == '' && body == '') {
       return
     }
     if (props.mode === 'edit') {
-      await axios.patch(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo/${id}.json`, { title, body, id })
-      props.onEdit({ title, body, id })
+      await axios.patch(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo/${id}.json`, { title, body, id, completed })
+      props.onEdit({ title, body, id, completed })
     } else {
-      const { data: { name } } = await axios.post(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo.json`, { title, body })
-      props.onSave({ title, body, id: name })
+      const { data: { name } } = await axios.post(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo.json`, { title, body, completed })
+      props.onSave({ title, body, id: name, completed })
     }
   }
   return (
@@ -47,7 +48,7 @@ const TaskWindow = props => {
             onClick={handleCancelButton}
           >Cancel</button>
           <button
-            className={classes.button+ ' ' + classes.success}
+            className={classes.button + ' ' + classes.success}
             onClick={handleSaveButton}
           >Save</button>
         </div>

@@ -8,7 +8,8 @@ const Task = props => {
     props.setSelectedTask({
       id: props.id,
       title: props.title,
-      body: props.description
+      body: props.description,
+      completed: props.completed
     })
   }
 
@@ -19,22 +20,26 @@ const Task = props => {
     })
   }
 
-  function handleCompletedClick() {
-    props.setTaskCompleted(props.id)
+  async function handleCompletedClick() {
+    props.setTaskCompleted({ id: props.id, completed: props.completed})
   }
 
+  let todoItemClasses = [classes.todoItem];
+  let checkIconTitle;
+  props.completed && todoItemClasses.push(classes.completedItem)
+  checkIconTitle = props.completed ? 'Do you want to restore this task?' : 'Do you want to complete this task?'
+  
+
   return (
-    <div className={classes.todoItem}>
-      <div className={classes.test}>
+    <div className={todoItemClasses.join(' ')}>
+      <div className={classes.todoItemContent}>
         <input
           type="checkbox"
           className={classes.checkbox}
-          // checked={props.completed}
-          // onChange={onChangeCheckbox}
         ></input>
         <div className={classes.todoItemText}>{props.title}</div>
         <span className={classes.todoItemToolbar}>
-          <i className={`fa-solid fa-circle-check ${classes.checkIcon}`} title="Do you want to complete this task?" onClick={handleCompletedClick}></i>
+          <i className={`fa-solid fa-circle-check ${classes.checkIcon}`} title={checkIconTitle} onClick={handleCompletedClick}></i>
           <i className={`fa-solid fa-pencil ${classes.editIcon}`} title="Edit Task" onClick={handleEditClick}></i>
           <i className={`fa-solid fa-trash-can ${classes.removeIcon}`} title="Remove Task" onClick={handleRemoveClick}></i>
         </span>

@@ -9,6 +9,10 @@
     margin-bottom: 10px;
 }
 
+.completedItem {
+    opacity: 0.4;
+}
+
 .checkbox {
     width: 15px;
     height: 15px;
@@ -20,7 +24,7 @@
     text-align: left;
 }
 
-.test {
+.todoItemContent {
     display: flex;
 }
 
@@ -46,14 +50,14 @@
     color: #13b7ca;
 }
 
-.editIcon,
-.removeIcon,
-.checkIcon {
+.completedItem .checkIcon {
+    color: #000000;
+}
+
+.todoItem i {
     margin-left: 10px;
 }
 
-.editIcon:hover,
-.removeIcon:hover,
-.checkIcon:hover {
+.todoItem i:hover {
     opacity: 0.8;
 }

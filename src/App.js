@@ -2,10 +2,36 @@ import './App.css';
 import {connect} from 'react-redux'
 import Todo from './components/Todo/Todo'
 import React from 'react'
-import {setList, deleteList, addTask, editTask, removeTask, completeTask, sortTasks} from './actions/taskActions'
+import {
+  setList, 
+  deleteList, 
+  addTask, 
+  editTask, 
+  removeTask, 
+  completeTask, 
+  setLoading, 
+  sortTasks, 
+  setFilterList,
+  setVisibilityFilter
+} from './actions/taskActions'
 
 function App(props) {
-  const { setList, deleteList, list, addTodo, editTodo, setTaskCompleted, removeTodo, sortTasks } = props
+  const { 
+    setList, 
+    deleteList, 
+    list, 
+    filteredList, 
+    visibilityFilter, 
+    loading, 
+    addTodo, 
+    editTodo, 
+    setTaskCompleted, 
+    removeTodo, 
+    setLoading, 
+    sortTasks, 
+    setFilterList,
+    setVisibilityFilter
+  } = props
   return (
     <div className="App">
       <Todo
@@ -14,9 +40,15 @@ function App(props) {
         addTodo={addTodo}
         editTodo={editTodo}
         list={list}
+        filteredList={filteredList}
+        visibilityFilter={visibilityFilter}
+        loading={loading}
         setTaskCompleted={setTaskCompleted}
         removeTodo={removeTodo}
+        setLoading={setLoading}
         sortTasks={sortTasks}
+        setFilterList={setFilterList}
+        setVisibilityFilter={setVisibilityFilter}
       >
       </Todo>
     </div>
@@ -25,7 +57,10 @@ function App(props) {
 
 const mapStateToProps = state => {
   return {
-    list: state.list
+    list: state.list,
+    filteredList: state.filteredList,
+    loading: state.loading,
+    visibilityFilter: state.visibilityFilter
   }
 }
 
@@ -36,7 +71,10 @@ const mapDispatchToProps = dispatch => ({
   editTodo: payload => dispatch(editTask(payload)),
   removeTodo: payload => dispatch(removeTask(payload)),
   setTaskCompleted: payload => dispatch(completeTask(payload)),
-  sortTasks: () => dispatch(sortTasks())
+  setLoading: payload => dispatch(setLoading(payload)),
+  sortTasks: () => dispatch(sortTasks()),
+  setFilterList: payload => (dispatch(setFilterList(payload))),
+  setVisibilityFilter: payload => (dispatch(setVisibilityFilter(payload)))
 })
 
 
