@@ -5,32 +5,21 @@ import {
   COMPLETE_TASK,
   EDIT_TASK, 
   REMOVE_TASK, 
-  SET_LOADING, 
-  SORT_TASKS,
+  SET_LOADING,
   SET_FILTER_LIST,
-  SET_VISIBILITY_FILTER
+  SET_VISIBILITY_FILTER,
+  SET_SORT_ORDER
 } from '../actions/actionTypes'
 import {SHOW_ALL} from '../actions/visibilityFilters'
-import { filterTasks } from '../utilities/filterUtilities';
+import { CREATION_DATE_ASC } from '../actions/sorting'
 
 const initialState = {
   list: [],
   filteredList: [],
   visibilityFilter: SHOW_ALL,
-  loading: true
+  loading: true,
+  sortOrder: CREATION_DATE_ASC
 };
-
-const sortList = list => {
-  return [...list].sort((a,b) => {
-    if (a.title > b.title) {
-      return 1;
-    }
-    if (a.title < b.title) {
-      return -1;
-    }
-    return 0;
-  })
-}
 
 export default function todoReducer(state = initialState, action) {
   switch (action.type) {
@@ -63,21 +52,41 @@ export default function todoReducer(state = initialState, action) {
     case COMPLETE_TASK:
       return {
         ...state,
-        list: state.list.map(item => item.id === action.payload.id ? {...item, completed: !item.completed} : item)
+        list: state.list.map(item => item.id === action.payload.id ? {...item, completed: !item.completed} : item),
+        filteredList: state.filteredList.map(item => item.id === action.payload.id ? {...item, completed: !item.completed} : item)
       }
     case SET_LOADING:
       return {
         ...state,
         loading: action.payload
       }
-    case SORT_TASKS:
-      const sortedList = sortList(state.list)
-      const filteredList = sortList(filterTasks(state.list, state.visibilityFilter))
+    case SET_SORT_ORDER:
+
       return {
         ...state,
-        list: sortedList,
-        filteredList
+        sortOrder: action.sortOrder
       }
+    // case SORT_TASKS_BY_CREATION_DATE:
+    //   return {
+    //     ...state,
+    //     sortOrder: state.sortOrder === CREATION_DATE_DESC ? CREATION_DATE_ASC : CREATION_DATE_DESC
+    //   }
+    // case SORT_TASKS_BY_TITLE:
+    //   return {
+    //     ...state,
+    //     sortOrder: state.sortOrder === ALPHABETIC_DESC ? ALPHABETIC_ASC : ALPHABETIC_DESC
+    //   }
+
+    // case SORT_TASKS_BY_CREATION_DATE:
+    //   const { sortOrder } = state
+    //   const sortedList = sortList(state.list)
+    //   const filteredList = sortList(filterTasks(state.list, state.visibilityFilter))
+    //   return {
+    //     ...state,
+    //     list: sortedList,
+    //     filteredList,
+    //     sortOrder: sortOrder === CREATION_DATE_DESC ? CREATION_DATE_ASC : CREATION_DATE_DESC
+    //   }
     case SET_FILTER_LIST:
       return {
         ...state,

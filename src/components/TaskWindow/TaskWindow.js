@@ -19,8 +19,9 @@ const TaskWindow = props => {
       await axios.patch(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo/${id}.json`, { title, body, id, completed })
       props.onEdit({ title, body, id, completed })
     } else {
-      const { data: { name } } = await axios.post(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo.json`, { title, body, completed })
-      props.onSave({ title, body, id: name, completed })
+      const todoItem = { title, body, completed, creationDate: new Date().getTime()}
+      const { data: { name } } = await axios.post(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo.json`, todoItem)
+      props.onSave({ ...todoItem, id: name })
     }
   }
   return (

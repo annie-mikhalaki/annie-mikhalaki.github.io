@@ -5,10 +5,10 @@ import {
   EDIT_TASK, 
   REMOVE_TASK, 
   COMPLETE_TASK, 
-  SET_LOADING, 
-  SORT_TASKS,
+  SET_LOADING,
   SET_FILTER_LIST,
-  SET_VISIBILITY_FILTER
+  SET_VISIBILITY_FILTER,
+  SET_SORT_ORDER
 } from './actionTypes'
 import axios from 'axios'
 
@@ -56,9 +56,10 @@ export function completeTask(payload) {
   }
 }
 
-export function sortTasks() {
+export function setSortOrder(payload) {
   return {
-    type: SORT_TASKS
+    type: SET_SORT_ORDER,
+    sortOrder: payload
   }
 }
 

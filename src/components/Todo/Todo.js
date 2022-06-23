@@ -6,6 +6,7 @@ import RemoveTaskWindow from '../RemoveTaskWindow/RemoveTaskWindow'
 import Loader from '../Loader/Loader'
 import {SHOW_ALL, SHOW_COMPLETED, SHOW_UNCOMPLETED} from '../../actions/visibilityFilters'
 import { filterTasks } from '../../utilities/filterUtilities'
+import { ALPHABETIC_ASC, ALPHABETIC_DESC, CREATION_DATE_ASC, CREATION_DATE_DESC } from '../../actions/sorting'
 import axios from 'axios'
 
 const defaultState = {
@@ -17,7 +18,7 @@ const defaultState = {
 const Todo = props => {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState('create'); // edit || create
-  const { list, loading, filteredList, visibilityFilter, addTodo, editTodo } = props;
+  const { list, loading, filteredList, visibilityFilter, addTodo, editTodo, sortOrder } = props;
   const [selectedTask, setSelectedTask] = useState(defaultState)
   const [openRemoveWindow, setOpenRemoveWindow] = useState(false)
 
@@ -60,6 +61,19 @@ const Todo = props => {
     props.deleteList()
   }
 
+  function setSortOrderByCreationDate () {
+    const { sortOrder } = props
+    const newOrder = sortOrder === CREATION_DATE_ASC ? CREATION_DATE_DESC : CREATION_DATE_ASC
+    props.setSortOrder(newOrder)
+  }
+
+  function setSortOrderByTitle () {
+    const { sortOrder } = props
+    const newOrder = sortOrder === ALPHABETIC_ASC ? ALPHABETIC_DESC : ALPHABETIC_ASC
+    const sortingList = 
+    props.setSortOrder(newOrder)
+  }
+
   function sortByFilter({ target: { value } }) {
     props.setVisibilityFilter(value)
     let sortedList;
@@ -93,17 +107,51 @@ const Todo = props => {
       </div>
       <div className={classes.hrLine}></div>
       <div className={classes.Toolbar}>
-        <div className={classes.taskFilter}>
-          <select name="filters" onChange={sortByFilter}>
-            <option value={SHOW_ALL} >Show all</option>
-            <option value={SHOW_COMPLETED}>Show completed</option>
-            <option value={SHOW_UNCOMPLETED}>Show uncompleted</option>
-          </select>
+        <div className={classes.buttonGroup}>
+          <div className={classes.taskFilter}>
+            <select name="filters" onChange={sortByFilter}>
+              <option value={SHOW_ALL} >Show all</option>
+              <option value={SHOW_COMPLETED}>Show completed</option>
+              <option value={SHOW_UNCOMPLETED}>Show uncompleted</option>
+            </select>
+          </div>
+          <button 
+            className={classes.button}
+            onClick={setSortOrderByTitle}
+            title="Sort tasks alphabetically"
+            {...(sortOrder === ALPHABETIC_ASC || sortOrder === ALPHABETIC_DESC) && { style: { background: '#d8d7d7' } }}
+          >
+            By title&nbsp;
+            {
+              sortOrder === ALPHABETIC_ASC &&
+              <i className="fa-solid fa-arrow-down-a-z"></i>
+            }
+            {
+              sortOrder === ALPHABETIC_DESC &&
+              <i className="fa-solid fa-arrow-up-a-z"></i>
+            }
+          </button>
+          <button
+            className={classes.button}
+            onClick={setSortOrderByCreationDate}
+            title="Sort tasks by creation date"
+            {...(sortOrder === CREATION_DATE_ASC || sortOrder === CREATION_DATE_DESC) && { style: { background: '#d8d7d7' } }}
+          >
+            By creation date&nbsp;
+          {
+              sortOrder === CREATION_DATE_ASC &&
+              <i className="fa-solid fa-arrow-down-1-9"></i>
+            }
+            {
+              sortOrder === CREATION_DATE_DESC &&
+              <i class="fa-solid fa-arrow-down-9-1"></i>
+            }
+          </button>
         </div>
-        <button className={classes.button} onClick={props.sortTasks} title="Sort tasks">
-          <i className="fa-solid fa-arrow-down-a-z"></i>
-        </button>
-        <button className={classes.button + ' ' + classes.error} onClick={onRemoveAll}>Clean all</button>
+        <div className={classes.buttonGroup}>
+          <button className={classes.button + ' ' + classes.error} onClick={onRemoveAll}>Delete marked</button>
+          <button className={classes.button + ' ' + classes.error} onClick={onRemoveAll}>Clean all</button>
+        </div>
       </div>
       { loading ? 
         <Loader /> :

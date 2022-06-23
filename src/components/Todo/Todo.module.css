@@ -48,7 +48,12 @@
 
 .Toolbar {
     display: flex;
+    justify-content: space-between;
     margin-bottom: 20px;
+}
+
+.buttonGroup {
+    display: flex;
 }
 
 select {
@@ -61,9 +66,11 @@ select {
 }
 
 .button {
-    margin-right: 5px;
     border-radius: 4px;
+    border: 1px solid black;
     cursor: pointer;
+    margin-left: 10px;
+    background: #ffffff;
 }
 
 .error {

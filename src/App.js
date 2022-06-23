@@ -9,8 +9,8 @@ import {
   editTask, 
   removeTask, 
   completeTask, 
-  setLoading, 
-  sortTasks, 
+  setLoading,
+  setSortOrder,
   setFilterList,
   setVisibilityFilter
 } from './actions/taskActions'
@@ -22,13 +22,14 @@ function App(props) {
     list, 
     filteredList, 
     visibilityFilter, 
-    loading, 
+    loading,
+    sortOrder,
     addTodo, 
     editTodo, 
     setTaskCompleted, 
     removeTodo, 
-    setLoading, 
-    sortTasks, 
+    setLoading,
+    setSortOrder,
     setFilterList,
     setVisibilityFilter
   } = props
@@ -40,13 +41,14 @@ function App(props) {
         addTodo={addTodo}
         editTodo={editTodo}
         list={list}
+        sortOrder={sortOrder}
         filteredList={filteredList}
         visibilityFilter={visibilityFilter}
         loading={loading}
         setTaskCompleted={setTaskCompleted}
         removeTodo={removeTodo}
         setLoading={setLoading}
-        sortTasks={sortTasks}
+        setSortOrder={setSortOrder}
         setFilterList={setFilterList}
         setVisibilityFilter={setVisibilityFilter}
       >
@@ -60,7 +62,8 @@ const mapStateToProps = state => {
     list: state.list,
     filteredList: state.filteredList,
     loading: state.loading,
-    visibilityFilter: state.visibilityFilter
+    visibilityFilter: state.visibilityFilter,
+    sortOrder: state.sortOrder
   }
 }
 
@@ -72,7 +75,7 @@ const mapDispatchToProps = dispatch => ({
   removeTodo: payload => dispatch(removeTask(payload)),
   setTaskCompleted: payload => dispatch(completeTask(payload)),
   setLoading: payload => dispatch(setLoading(payload)),
-  sortTasks: () => dispatch(sortTasks()),
+  setSortOrder: payload => dispatch(setSortOrder(payload)),
   setFilterList: payload => (dispatch(setFilterList(payload))),
   setVisibilityFilter: payload => (dispatch(setVisibilityFilter(payload)))
 })
