@@ -1,10 +1,11 @@
 import {
   SET_LIST,
-  DELETE_TASK,
+  REMOVE_TASKS,
   ADD_TASK,
   COMPLETE_TASK,
   EDIT_TASK, 
-  REMOVE_TASK, 
+  REMOVE_TASK,
+  REMOVE_MARKED_TASKS,
   SET_LOADING,
   SET_FILTER_LIST,
   SET_VISIBILITY_FILTER,
@@ -28,10 +29,15 @@ export default function todoReducer(state = initialState, action) {
         ...state,
         list: action.payload
       }
-    case DELETE_TASK:
+    case REMOVE_TASKS:
       return {
         ...state,
         list: []
+      }
+    case REMOVE_MARKED_TASKS:
+      return {
+        ...state,
+        list: state.list.filter(item => action.payload.findIndex(id => id === item.id) === -1)
       }
     case ADD_TASK:
       return {
@@ -61,22 +67,11 @@ export default function todoReducer(state = initialState, action) {
         loading: action.payload
       }
     case SET_SORT_ORDER:
-
       return {
         ...state,
-        sortOrder: action.sortOrder
+        sortOrder: action.sortOrder,
+        // filteredList: action.sortedList
       }
-    // case SORT_TASKS_BY_CREATION_DATE:
-    //   return {
-    //     ...state,
-    //     sortOrder: state.sortOrder === CREATION_DATE_DESC ? CREATION_DATE_ASC : CREATION_DATE_DESC
-    //   }
-    // case SORT_TASKS_BY_TITLE:
-    //   return {
-    //     ...state,
-    //     sortOrder: state.sortOrder === ALPHABETIC_DESC ? ALPHABETIC_ASC : ALPHABETIC_DESC
-    //   }
-
     // case SORT_TASKS_BY_CREATION_DATE:
     //   const { sortOrder } = state
     //   const sortedList = sortList(state.list)
@@ -90,7 +85,7 @@ export default function todoReducer(state = initialState, action) {
     case SET_FILTER_LIST:
       return {
         ...state,
-        filteredList: action.payload
+        filteredList: action.filteredList
       }
     case SET_VISIBILITY_FILTER:
       return {

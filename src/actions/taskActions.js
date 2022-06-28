@@ -1,9 +1,10 @@
 import {
   SET_LIST,
-  DELETE_TASK, 
+  REMOVE_TASKS, 
   ADD_TASK, 
   EDIT_TASK, 
-  REMOVE_TASK, 
+  REMOVE_TASK,
+  REMOVE_MARKED_TASKS,
   COMPLETE_TASK, 
   SET_LOADING,
   SET_FILTER_LIST,
@@ -22,7 +23,14 @@ export function addTask(newTask) {
 export function deleteList() {
   axios.put('https://react-todolist-97133-default-rtdb.firebaseio.com/todo.json', {})
   return {
-    type: DELETE_TASK
+    type: REMOVE_TASKS
+  }
+}
+
+export function removeMarkedTasks(payload) {
+  return {
+    type: REMOVE_MARKED_TASKS,
+    payload
   }
 }
 
@@ -59,7 +67,8 @@ export function completeTask(payload) {
 export function setSortOrder(payload) {
   return {
     type: SET_SORT_ORDER,
-    sortOrder: payload
+    sortOrder: payload.newOrder,
+    // sortedList: payload.sortedList
   }
 }
 
@@ -73,7 +82,7 @@ export function setLoading(payload) {
 export function setFilterList(payload) {
   return {
     type: SET_FILTER_LIST,
-    payload
+    filteredList: payload
   }
 }
 

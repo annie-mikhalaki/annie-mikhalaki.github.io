@@ -5,7 +5,7 @@ const Task = props => {
   function handleEditClick () {
     props.setOpen(true)
     props.setMode('edit')
-    props.setSelectedTask({
+    props.setSelectTaskForEdit({
       id: props.id,
       title: props.title,
       body: props.description,
@@ -15,7 +15,7 @@ const Task = props => {
 
   function handleRemoveClick() {
     props.setOpenRemoveWindow(true)
-    props.setSelectedTask({
+    props.setSelectTaskForEdit({
       id: props.id
     })
   }
@@ -36,6 +36,8 @@ const Task = props => {
         <input
           type="checkbox"
           className={classes.checkbox}
+          checked={props.selected}
+          onChange={event => props.selectItem(event, props.id)}
         ></input>
         <div className={classes.todoItemText}>{props.title}</div>
         <span className={classes.todoItemToolbar}>

@@ -7,7 +7,8 @@ import {
   deleteList, 
   addTask, 
   editTask, 
-  removeTask, 
+  removeTask,
+  removeMarkedTasks,
   completeTask, 
   setLoading,
   setSortOrder,
@@ -27,7 +28,8 @@ function App(props) {
     addTodo, 
     editTodo, 
     setTaskCompleted, 
-    removeTodo, 
+    removeTodo,
+    removeMarkedTasks,
     setLoading,
     setSortOrder,
     setFilterList,
@@ -47,6 +49,7 @@ function App(props) {
         loading={loading}
         setTaskCompleted={setTaskCompleted}
         removeTodo={removeTodo}
+        removeMarkedTasks={removeMarkedTasks}
         setLoading={setLoading}
         setSortOrder={setSortOrder}
         setFilterList={setFilterList}
@@ -73,6 +76,7 @@ const mapDispatchToProps = dispatch => ({
   addTodo: payload => dispatch(addTask(payload)),
   editTodo: payload => dispatch(editTask(payload)),
   removeTodo: payload => dispatch(removeTask(payload)),
+  removeMarkedTasks: payload => dispatch(removeMarkedTasks(payload)),
   setTaskCompleted: payload => dispatch(completeTask(payload)),
   setLoading: payload => dispatch(setLoading(payload)),
   setSortOrder: payload => dispatch(setSortOrder(payload)),

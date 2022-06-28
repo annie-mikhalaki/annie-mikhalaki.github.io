@@ -9,4 +9,3 @@ export const filterTasks = (list, filter) => {
     }
     return list
 }
-

@@ -2,7 +2,7 @@
     padding: 20px;
     border: 1px solid #626262;
     border-radius: 5px;
-    margin: 20px 40px;
+    margin: 20px;
     color: #626262;
     font-family: 'Courgette', cursive;
     background: #ffffff;
@@ -61,10 +61,6 @@ select {
     border-radius: 4px;
 }
 
-.taskFilter {
-    margin-right: 5px;
-}
-
 .button {
     border-radius: 4px;
     border: 1px solid black;
@@ -74,5 +70,5 @@ select {
 }
 
 .error {
-    background: #d67171;
+    background: #f39c9c;
 }

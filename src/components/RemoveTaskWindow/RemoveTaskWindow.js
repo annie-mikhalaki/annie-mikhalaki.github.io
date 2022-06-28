@@ -8,7 +8,7 @@ const RemoveTaskWindow = props => {
 
   function handleRemoveButton() {
     props.setOpenRemoveWindow(false)
-    props.onRemoveTask(props.selectedTask.id)
+    props.onRemoveTask(props.selectTaskForEdit.id)
   }
 
   return (

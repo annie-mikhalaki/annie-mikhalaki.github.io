@@ -5,6 +5,7 @@ import TaskWindow from '../TaskWindow/TaskWindow'
 import RemoveTaskWindow from '../RemoveTaskWindow/RemoveTaskWindow'
 import Loader from '../Loader/Loader'
 import {SHOW_ALL, SHOW_COMPLETED, SHOW_UNCOMPLETED} from '../../actions/visibilityFilters'
+import { sortList_ASK, sortList_DESK, sortListByDate_ASK, sortListByDate_DESK } from '../../utilities/sortingUtilities'
 import { filterTasks } from '../../utilities/filterUtilities'
 import { ALPHABETIC_ASC, ALPHABETIC_DESC, CREATION_DATE_ASC, CREATION_DATE_DESC } from '../../actions/sorting'
 import axios from 'axios'
@@ -18,41 +19,44 @@ const defaultState = {
 const Todo = props => {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState('create'); // edit || create
+  const [selectedItems, setSelectedItems] = useState([]);
   const { list, loading, filteredList, visibilityFilter, addTodo, editTodo, sortOrder } = props;
-  const [selectedTask, setSelectedTask] = useState(defaultState)
+  const [selectTaskForEdit, setSelectTaskForEdit] = useState(defaultState)
   const [openRemoveWindow, setOpenRemoveWindow] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await axios.get('https://react-todolist-97133-default-rtdb.firebaseio.com/todo.json')
-      const  list = Object.keys(response.data).map(key => {
-        return {
-          ...response.data[key],
-          id: key
-        }
-      })
-      props.setList(list)
+      if (response.data) {
+        const  list = Object.keys(response.data).map(key => {
+          return {
+            ...response.data[key],
+            id: key
+          }
+        })
+        props.setList(list)
+      }
       props.setLoading(false)
     }
     fetchData().catch(console.error);
   }, [])
 
   function handleChangeTitle(event) {
-    setSelectedTask({
-      ...selectedTask,
+    setSelectTaskForEdit({
+      ...selectTaskForEdit,
       title: event.target.value
     })
   }
 
   function handleChangeBody(event) {
-    setSelectedTask({
-      ...selectedTask,
+    setSelectTaskForEdit({
+      ...selectTaskForEdit,
       body: event.target.value
     })
   }
 
   function onClickAddButton() {
-    setSelectedTask(defaultState)
+    setSelectTaskForEdit(defaultState)
     setMode('create')
     setOpen(true)
   }
@@ -61,17 +65,43 @@ const Todo = props => {
     props.deleteList()
   }
 
-  function setSortOrderByCreationDate () {
-    const { sortOrder } = props
-    const newOrder = sortOrder === CREATION_DATE_ASC ? CREATION_DATE_DESC : CREATION_DATE_ASC
-    props.setSortOrder(newOrder)
+  function onRemoveMarked() {
+    selectedItems.forEach(item => {
+      axios.delete(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo/${item}.json`)
+    })
+    props.removeMarkedTasks(selectedItems)
   }
 
-  function setSortOrderByTitle () {
+  function setSortOrderByCreationDate() {
     const { sortOrder } = props
-    const newOrder = sortOrder === ALPHABETIC_ASC ? ALPHABETIC_DESC : ALPHABETIC_ASC
-    const sortingList = 
-    props.setSortOrder(newOrder)
+    const newOrder = ( sortOrder === CREATION_DATE_ASC ) ? CREATION_DATE_DESC : CREATION_DATE_ASC
+    // const sortedList = getSortedList(newOrder)
+    props.setSortOrder({ newOrder })
+    // props.setSortOrder({ newOrder, sortedList })
+  }
+
+  function setSortOrderByTitle() {
+    const { sortOrder } = props
+    const newOrder = ( sortOrder === ALPHABETIC_ASC ) ? ALPHABETIC_DESC : ALPHABETIC_ASC
+    // const sortedList = getSortedList(newOrder)
+    props.setSortOrder({ newOrder })
+    // props.setSortOrder({ newOrder, sortedList })
+  }
+
+  function getSortedList(sortOrder) {
+    const taskList = (visibilityFilter === SHOW_ALL) ? list : filteredList
+    switch(sortOrder) {
+      case ALPHABETIC_ASC:
+        return sortList_ASK(taskList)
+      case ALPHABETIC_DESC:
+        return sortList_DESK(taskList)
+      case CREATION_DATE_ASC:
+        return sortListByDate_ASK(taskList)
+      case CREATION_DATE_DESC:
+        return sortListByDate_DESK(taskList)
+      default:
+        break
+    }
   }
 
   function sortByFilter({ target: { value } }) {
@@ -80,6 +110,7 @@ const Todo = props => {
     switch(value) {
       case SHOW_ALL:
         props.setList(list)
+        props.setFilterList(list)
         break
       case SHOW_COMPLETED:
         sortedList = filterTasks(list, value)
@@ -93,8 +124,16 @@ const Todo = props => {
         break
     }
   }
+
+  function selectItem ({ target: { checked }}, id) {
+    if (checked) {
+      setSelectedItems([...selectedItems, id])
+    } else {
+      setSelectedItems(selectedItems.filter(selectedItemId => selectedItemId !== id))
+    }
+  }
   
-  const displayList = (visibilityFilter === SHOW_ALL) ? list : filteredList
+  const sortedList = getSortedList(props.sortOrder)
 
   return (
     <div className={classes.Todo}>
@@ -149,7 +188,7 @@ const Todo = props => {
           </button>
         </div>
         <div className={classes.buttonGroup}>
-          <button className={classes.button + ' ' + classes.error} onClick={onRemoveAll}>Delete marked</button>
+          <button className={classes.button + ' ' + classes.error} onClick={onRemoveMarked}>Delete marked</button>
           <button className={classes.button + ' ' + classes.error} onClick={onRemoveAll}>Clean all</button>
         </div>
       </div>
@@ -157,8 +196,8 @@ const Todo = props => {
         <Loader /> :
         <div className={classes.todoItems}>
           { 
-            displayList.length > 0 ?
-            displayList.map((item, index) => {
+            sortedList.length > 0 ?
+            sortedList.map((item, index) => {
               return (
                 <Task
                   key={index}
@@ -168,10 +207,12 @@ const Todo = props => {
                   completed={item.completed}
                   setOpen={setOpen}
                   setOpenRemoveWindow={setOpenRemoveWindow}
-                  setSelectedTask={setSelectedTask}
+                  setSelectTaskForEdit={setSelectTaskForEdit}
                   setMode={setMode}
                   setTaskCompleted={props.setTaskCompleted}
-                  selectedTask={selectedTask}
+                  selectTaskForEdit={selectTaskForEdit}
+                  selected={selectedItems.findIndex(id => item.id === id) > -1}
+                  selectItem={selectItem}
                 >
                 </Task>
               )
@@ -187,7 +228,7 @@ const Todo = props => {
             onEdit={editTodo}
             setOpen={setOpen}
             mode={mode}
-            task={selectedTask}
+            task={selectTaskForEdit}
             list={list}
             handleChangeTitle={handleChangeTitle}
             handleChangeBody={handleChangeBody}
@@ -199,7 +240,7 @@ const Todo = props => {
           <RemoveTaskWindow
             setOpenRemoveWindow={setOpenRemoveWindow}
             onRemoveTask={props.removeTodo}
-            selectedTask={selectedTask}
+            selectTaskForEdit={selectTaskForEdit}
           /> :
           null
       }
