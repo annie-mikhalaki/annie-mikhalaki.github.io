@@ -1,17 +1,17 @@
 export const sortTasksByTitleASC = tasks => {
-    return [...tasks].sort((a,b) => {
+    return [...tasks].sort((a, b) => {
         if (a.title > b.title) {
-        return 1;
+            return 1
         }
         if (a.title < b.title) {
-        return -1;
+            return -1
         }
-        return 0;
+        return 0
     })
 }
 
 export const sortTasksByTitleDESC = tasks => {
-    return [...tasks].sort((a,b) => {
+    return [...tasks].sort((a, b) => {
         if (a.title < b.title) {
             return 1
         }

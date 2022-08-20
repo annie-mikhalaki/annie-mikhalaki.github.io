@@ -16,7 +16,7 @@ const getAllTodoItems = () => api(firebase)
     .catch(error => console.error(error))
 
 const createTodoItem = item => api(firebase)
-    .patch('todo.json', item)
+    .post('todo.json', item)
     .then(response => response)
     .catch(error => console.error(error))
 

@@ -6,9 +6,6 @@ const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_E
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose
 
-const store = createStore(
-  todo,
-  composeEnhancers(applyMiddleware(thunk))
-)
+const store = createStore(todo, composeEnhancers(applyMiddleware(thunk)))
 
 export default store

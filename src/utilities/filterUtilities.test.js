@@ -1,7 +1,7 @@
 import { filterTasks } from './filterUtilities'
 import { SHOW_COMPLETED, SHOW_UNCOMPLETED } from '../actions/visibilityFilters'
 
-describe("filterUtilites", () => {
+describe('filterUtilites', () => {
     let list
     describe('filterTasks', () => {
         it('should return filtered list if array is not empty and filter is SHOW_COMPLETED', () => {
@@ -15,7 +15,11 @@ describe("filterUtilites", () => {
         })
 
         it('should return empty list if filter is SHOW_COMPLETED but list hasnt completed task', () => {
-            list = [{id: 1, completed: false}, {id: 2, completed: false}, {id: 3, completed: false}]
+            list = [
+                { id: 1, completed: false },
+                { id: 2, completed: false },
+                { id: 3, completed: false },
+            ]
             expect(filterTasks(list, SHOW_COMPLETED)).toEqual([])
         })
 
@@ -30,8 +34,12 @@ describe("filterUtilites", () => {
         })
 
         it('should return empty list if filter is SHOW_UNCOMPLETED but list hasnt uncompleted task', () => {
-            list = [{id: 1, completed: true}, {id: 2, completed: true}, {id: 3, completed: true}]
+            list = [
+                { id: 1, completed: true },
+                { id: 2, completed: true },
+                { id: 3, completed: true },
+            ]
             expect(filterTasks(list, SHOW_UNCOMPLETED)).toEqual([])
         })
     })
-});
+})
