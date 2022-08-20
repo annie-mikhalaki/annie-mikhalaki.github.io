@@ -12,6 +12,7 @@ import {
   SET_VISIBILITY_FILTER,
   SET_SORT_ORDER
 } from './actionTypes'
+import { todoAPI } from '../api'
 
 export function addTask(newTask) {
     return {
@@ -21,7 +22,7 @@ export function addTask(newTask) {
 }
 
 export function deleteList() {
-  axios.put('https://react-todolist-97133-default-rtdb.firebaseio.com/todo.json', {})
+  todoAPI.deleteAllTodoItems()
   return {
     type: REMOVE_TASKS
   }
@@ -48,16 +49,17 @@ export function editTask(payload) {
   }
 }
 
-export function removeTask(payload) {
-  axios.delete(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo/${payload}.json`)
+export function removeTask(itemId) {
+  todoAPI.deleteTodoItem(itemId)
   return {
     type: REMOVE_TASK,
-    payload
+    payload: itemId
   }
 }
 
 export function completeTask(payload) {
-  axios.patch(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo/${payload.id}.json`, { completed: !payload.completed })
+  const { id: itemId, completed } = payload
+  todoAPI.completeTodoItem(itemId, !completed)
   return {
     type: COMPLETE_TASK,
     payload

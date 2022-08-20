@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './TaskWindow.module.css'
-import axios from 'axios'
+import { todoAPI } from '../../api'
 
 const TaskWindow = props => {
   function handleCancelButton() {
@@ -16,12 +16,13 @@ const TaskWindow = props => {
       return
     }
     if (props.mode === 'edit') {
-      await axios.patch(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo/${id}.json`, { title, body, id, completed })
-      props.onEdit({ title, body, id, completed })
+      const todoItem = { title, body, id, completed }
+      await todoAPI.updateTodoItem(todoItem)
+      props.onEdit(todoItem)
     } else {
       const todoItem = { title, body, completed, creationDate: new Date().getTime()}
-      const { data: { name } } = await axios.post(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo.json`, todoItem)
-      props.onSave({ ...todoItem, id: name })
+      const { data: { name: id } } = await todoAPI.createTodoItem(todoItem)
+      props.onSave({ ...todoItem, id })
     }
   }
   return (
