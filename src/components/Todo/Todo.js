@@ -8,7 +8,7 @@ import { SHOW_ALL, SHOW_COMPLETED, SHOW_UNCOMPLETED } from '../../actions/visibi
 import { sortList_ASK, sortList_DESK, sortListByDate_ASK, sortListByDate_DESK } from '../../utilities/sortingUtilities'
 import { filterTasks } from '../../utilities/filterUtilities'
 import { ALPHABETIC_ASC, ALPHABETIC_DESC, CREATION_DATE_ASC, CREATION_DATE_DESC } from '../../actions/sorting'
-import axios from 'axios'
+import { todoAPI } from '../../api'
 
 const defaultState = {
   title: '',
@@ -26,7 +26,7 @@ const Todo = props => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get('https://react-todolist-97133-default-rtdb.firebaseio.com/todo.json')
+      const response = await todoAPI.getAllTodoItems()
       if (response.data) {
         const  list = Object.keys(response.data).map(key => {
           return {
@@ -66,8 +66,8 @@ const Todo = props => {
   }
 
   function onRemoveMarked() {
-    selectedItems.forEach(item => {
-      axios.delete(`https://react-todolist-97133-default-rtdb.firebaseio.com/todo/${item}.json`)
+    selectedItems.forEach(itemId => {
+      todoAPI.deleteTodoItem(itemId)
     })
     props.removeMarkedTasks(selectedItems)
   }
@@ -75,17 +75,13 @@ const Todo = props => {
   function setSortOrderByCreationDate() {
     const { sortOrder } = props
     const newOrder = ( sortOrder === CREATION_DATE_ASC ) ? CREATION_DATE_DESC : CREATION_DATE_ASC
-    // const sortedList = getSortedList(newOrder)
     props.setSortOrder({ newOrder })
-    // props.setSortOrder({ newOrder, sortedList })
   }
 
   function setSortOrderByTitle() {
     const { sortOrder } = props
     const newOrder = ( sortOrder === ALPHABETIC_ASC ) ? ALPHABETIC_DESC : ALPHABETIC_ASC
-    // const sortedList = getSortedList(newOrder)
     props.setSortOrder({ newOrder })
-    // props.setSortOrder({ newOrder, sortedList })
   }
 
   function getSortedList(sortOrder) {
