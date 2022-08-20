@@ -1,3 +1,4 @@
+import axios from 'axios'
 import {
   SET_LIST,
   REMOVE_TASKS, 
@@ -11,7 +12,6 @@ import {
   SET_VISIBILITY_FILTER,
   SET_SORT_ORDER
 } from './actionTypes'
-import axios from 'axios'
 
 export function addTask(newTask) {
     return {
@@ -67,8 +67,7 @@ export function completeTask(payload) {
 export function setSortOrder(payload) {
   return {
     type: SET_SORT_ORDER,
-    sortOrder: payload.newOrder,
-    // sortedList: payload.sortedList
+    sortOrder: payload.newOrder
   }
 }
 

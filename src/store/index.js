@@ -1,11 +1,10 @@
 import { createStore, compose, applyMiddleware } from 'redux'
-import todo from '../reducers/todo'
 import thunk from 'redux-thunk'
+import todo from '../reducers/todo'
 
-const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-    }) : compose
+const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+    : compose
 
 const store = createStore(
   todo,

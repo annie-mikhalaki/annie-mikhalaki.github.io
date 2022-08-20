@@ -11,7 +11,7 @@ import {
   SET_VISIBILITY_FILTER,
   SET_SORT_ORDER
 } from '../actions/actionTypes'
-import {SHOW_ALL} from '../actions/visibilityFilters'
+import { SHOW_ALL } from '../actions/visibilityFilters'
 import { CREATION_DATE_ASC } from '../actions/sorting'
 
 const initialState = {
@@ -69,19 +69,8 @@ export default function todoReducer(state = initialState, action) {
     case SET_SORT_ORDER:
       return {
         ...state,
-        sortOrder: action.sortOrder,
-        // filteredList: action.sortedList
+        sortOrder: action.sortOrder
       }
-    // case SORT_TASKS_BY_CREATION_DATE:
-    //   const { sortOrder } = state
-    //   const sortedList = sortList(state.list)
-    //   const filteredList = sortList(filterTasks(state.list, state.visibilityFilter))
-    //   return {
-    //     ...state,
-    //     list: sortedList,
-    //     filteredList,
-    //     sortOrder: sortOrder === CREATION_DATE_DESC ? CREATION_DATE_ASC : CREATION_DATE_DESC
-    //   }
     case SET_FILTER_LIST:
       return {
         ...state,
