@@ -54,6 +54,8 @@
 
 .buttonGroup {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
 select {
@@ -62,11 +64,23 @@ select {
 }
 
 .button {
+    display: block;
+    min-width: 50px;
     border-radius: 4px;
     border: 1px solid black;
     cursor: pointer;
     margin-left: 10px;
     background: #ffffff;
+}
+
+@media only screen and (max-width: 600px) {
+    .buttonGroup  {
+        flex-direction: column;
+    }
+    .button {
+        margin-left: 0px;
+        margin-top: 10px;
+    }
 }
 
 .error {

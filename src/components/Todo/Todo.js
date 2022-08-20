@@ -188,8 +188,6 @@ const Todo = props => {
                         {sortOrder === CREATION_DATE_ASC && <i className="fa-solid fa-arrow-down-1-9"></i>}
                         {sortOrder === CREATION_DATE_DESC && <i className="fa-solid fa-arrow-down-9-1"></i>}
                     </button>
-                </div>
-                <div className={classes.buttonGroup}>
                     <button className={classes.button + ' ' + classes.error} onClick={onRemoveMarked}>
                         Delete marked
                     </button>
