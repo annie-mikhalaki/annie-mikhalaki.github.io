@@ -1,7 +1,6 @@
-import './App.css';
+import React from 'react'
 import {connect} from 'react-redux'
 import Todo from './components/Todo/Todo'
-import React from 'react'
 import {
   setList, 
   deleteList, 
