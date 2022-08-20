@@ -13,7 +13,7 @@ import {
     setSortOrder,
     setFilterList,
     setVisibilityFilter,
-} from './actions/taskActions'
+} from './actions'
 
 function App(props) {
     const {
