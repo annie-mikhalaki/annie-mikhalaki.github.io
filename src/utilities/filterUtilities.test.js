@@ -1,5 +1,5 @@
 import { filterTasks } from './filterUtilities'
-import { SHOW_COMPLETED, SHOW_UNCOMPLETED } from '../actions/visibilityFilters'
+import { SHOW_COMPLETED, SHOW_UNCOMPLETED } from '../entities/visibilityFilters'
 
 describe('filterUtilites', () => {
     let list

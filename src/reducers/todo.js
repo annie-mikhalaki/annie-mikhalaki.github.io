@@ -11,8 +11,8 @@ import {
     SET_VISIBILITY_FILTER,
     SET_SORT_ORDER,
 } from '../actions/actionTypes'
-import { SHOW_ALL } from '../actions/visibilityFilters'
-import { CREATION_DATE_ASC } from '../actions/sorting'
+import { SHOW_ALL } from '../entities/visibilityFilters'
+import { CREATION_DATE_ASC } from '../entities/sorting'
 
 const initialState = {
     list: [],

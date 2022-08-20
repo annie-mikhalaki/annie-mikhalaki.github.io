@@ -4,10 +4,10 @@ import Task from '../Task/Task'
 import TaskWindow from '../TaskWindow/TaskWindow'
 import RemoveTaskWindow from '../RemoveTaskWindow/RemoveTaskWindow'
 import Loader from '../Loader/Loader'
-import { SHOW_ALL, SHOW_COMPLETED, SHOW_UNCOMPLETED } from '../../actions/visibilityFilters'
+import { SHOW_ALL, SHOW_COMPLETED, SHOW_UNCOMPLETED } from '../../entities/visibilityFilters'
 import { sortTasksByTitleASC, sortTasksByTitleDESC, sortTasksByDateASC, sortTasksByDateDESC } from '../../utilities/sortingUtilities'
 import { filterTasks } from '../../utilities/filterUtilities'
-import { ALPHABETIC_ASC, ALPHABETIC_DESC, CREATION_DATE_ASC, CREATION_DATE_DESC } from '../../actions/sorting'
+import { ALPHABETIC_ASC, ALPHABETIC_DESC, CREATION_DATE_ASC, CREATION_DATE_DESC } from '../../entities/sorting'
 import { todoAPI } from '../../api'
 
 const defaultState = {

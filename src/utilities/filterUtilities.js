@@ -1,4 +1,4 @@
-import { SHOW_COMPLETED, SHOW_UNCOMPLETED } from '../actions/visibilityFilters'
+import { SHOW_COMPLETED, SHOW_UNCOMPLETED } from '../entities/visibilityFilters'
 
 export const filterTasks = (list, filter) => {
     if (filter === SHOW_COMPLETED) {
