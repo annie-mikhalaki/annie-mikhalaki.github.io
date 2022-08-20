@@ -5,7 +5,7 @@ import TaskWindow from '../TaskWindow/TaskWindow'
 import RemoveTaskWindow from '../RemoveTaskWindow/RemoveTaskWindow'
 import Loader from '../Loader/Loader'
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_UNCOMPLETED } from '../../actions/visibilityFilters'
-import { sortList_ASK, sortList_DESK, sortListByDate_ASK, sortListByDate_DESK } from '../../utilities/sortingUtilities'
+import { sortTasksByTitleASC, sortTasksByTitleDESC, sortTasksByDateASC, sortTasksByDateDESC } from '../../utilities/sortingUtilities'
 import { filterTasks } from '../../utilities/filterUtilities'
 import { ALPHABETIC_ASC, ALPHABETIC_DESC, CREATION_DATE_ASC, CREATION_DATE_DESC } from '../../actions/sorting'
 import { todoAPI } from '../../api'
@@ -88,13 +88,13 @@ const Todo = props => {
     const taskList = (visibilityFilter === SHOW_ALL) ? list : filteredList
     switch(sortOrder) {
       case ALPHABETIC_ASC:
-        return sortList_ASK(taskList)
+        return sortTasksByTitleASC(taskList)
       case ALPHABETIC_DESC:
-        return sortList_DESK(taskList)
+        return sortTasksByTitleDESC(taskList)
       case CREATION_DATE_ASC:
-        return sortListByDate_ASK(taskList)
+        return sortTasksByDateASC(taskList)
       case CREATION_DATE_DESC:
-        return sortListByDate_DESK(taskList)
+        return sortTasksByDateDESC(taskList)
       default:
         break
     }
@@ -179,7 +179,7 @@ const Todo = props => {
             }
             {
               sortOrder === CREATION_DATE_DESC &&
-              <i class="fa-solid fa-arrow-down-9-1"></i>
+              <i className="fa-solid fa-arrow-down-9-1"></i>
             }
           </button>
         </div>

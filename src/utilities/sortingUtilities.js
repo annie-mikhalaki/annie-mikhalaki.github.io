@@ -1,5 +1,5 @@
-export const sortList_ASK = list => {
-    return [...list].sort((a,b) => {
+export const sortTasksByTitleASC = tasks => {
+    return [...tasks].sort((a,b) => {
         if (a.title > b.title) {
         return 1;
         }
@@ -10,8 +10,8 @@ export const sortList_ASK = list => {
     })
 }
 
-export const sortList_DESK = list => {
-    return [...list].sort((a,b) => {
+export const sortTasksByTitleDESC = tasks => {
+    return [...tasks].sort((a,b) => {
         if (a.title < b.title) {
             return 1
         }
@@ -22,8 +22,8 @@ export const sortList_DESK = list => {
     })
 }
 
-export const sortListByDate_ASK = list => {
-    return [...list].sort((a, b) => {
+export const sortTasksByDateASC = tasks => {
+    return [...tasks].sort((a, b) => {
         if (a.creationDate > b.creationDate) {
             return 1
         }
@@ -34,8 +34,8 @@ export const sortListByDate_ASK = list => {
     })
 }
 
-export const sortListByDate_DESK = list => {
-    return [...list].sort((a, b) => {
+export const sortTasksByDateDESC = tasks => {
+    return [...tasks].sort((a, b) => {
         if (a.creationDate < b.creationDate) {
             return 1
         }
