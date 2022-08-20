@@ -10,7 +10,7 @@ import {
     SET_FILTER_LIST,
     SET_VISIBILITY_FILTER,
     SET_SORT_ORDER,
-} from '../actions/actionTypes'
+} from '../actions'
 import { SHOW_ALL } from '../entities/visibilityFilters'
 import { CREATION_DATE_ASC } from '../entities/sorting'
 
