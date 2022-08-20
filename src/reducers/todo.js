@@ -14,7 +14,7 @@ import {
 import { SHOW_ALL } from '../entities/visibilityFilters'
 import { CREATION_DATE_ASC } from '../entities/sorting'
 
-const initialState = {
+export const initialState = {
     list: [],
     filteredList: [],
     visibilityFilter: SHOW_ALL,
